@@ -1,0 +1,23 @@
+WITH
+	rain_dates
+AS(
+	SELECT
+		DATE(date) rain_date
+	FROM
+		weather
+	WHERE
+		events = 'Rain'
+	GROUP BY
+		1)
+SELECT
+	r.rain_date,
+	MAX(t.duration)
+FROM
+	trips t
+JOIN
+	rain_dates r
+ON
+	r.rain_date = DATE(t.start_date)
+GROUP BY
+	1
+ORDER BY 1

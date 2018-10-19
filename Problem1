@@ -1,0 +1,25 @@
+WITH
+	rain 
+AS (
+	SELECT
+		DATE(date) AS rain_date
+	FROM
+		weather
+	WHERE
+		events = 'Rain'
+	GROUP BY
+		1
+	)
+SELECT
+	t.trip_id,
+	t.duration,
+	DATE(t.start_date)
+FROM trips t
+JOIN
+	rain r
+ON
+	r.rain_date = DATE(t.start_date)
+ORDER BY
+	t.duration DESC
+LIMIT 3;
+	
